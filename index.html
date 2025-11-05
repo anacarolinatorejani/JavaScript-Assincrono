@@ -1,50 +1,54 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>Carregamento e Ping</title>
+    <meta charset="UTF-8">
+    <title>JavaScript Assíncrono</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<h2>Carregamento do Sistema</h2>
-<p id="status">Clique em Iniciar</p>
-<button onclick="carregar()">Iniciar</button>
+    <h2>Carregamento do Sistema</h2>
+    <p id="status">Clique em Iniciar</p>
+    <button onclick="carregar()">Iniciar</button>
 
-<h2>Simulador de Ping</h2>
-<input id="host" placeholder="Digite o host (ex: www.google.com)">
-<button onclick="pingar()">Ping 4x</button>
-<pre id="saida"></pre>
+    <h2>Simulador de Ping</h2>
+    <input id="host" placeholder="Digite o host:">
+    <button onclick="pingar()">Ping 4x</button>
+    <pre id="saida"></pre>
 
-<script>
-function esperar(ms){return new Promise(r=>setTimeout(r,ms))}
+    <script>
+        function esperar(ms) { return new Promise(r => setTimeout(r, ms)) }
 
-async function carregar(){
-  let s=document.getElementById("status")
-  s.innerText="Inicializando..."
-  await esperar(1000)
-  s.innerText="Carregando módulos..."
-  await esperar(4000)
-  s.innerText="Sistema pronto!"
-}
+        async function carregar() {
+            let s = document.getElementById("status")
+            s.innerText = "Inicializando..."
+            await esperar(1000)
+            s.innerText = "Carregando módulos..."
+            await esperar(4000)
+            s.innerText = "Sistema pronto!"
+        }
 
-async function pingar(){
-  let host=document.getElementById("host").value||"localhost"
-  let ip="172.217.28.68"
-  let saida=document.getElementById("saida")
-  saida.innerText=`Disparando ${host} [${ip}] com 32 bytes de dados:\n`
-  let tempos=[]
-  for(let i=1;i<=4;i++){
-    let t=Math.floor(Math.random()*100)+10
-    saida.innerText+=`Resposta de ${ip}: bytes=32 tempo=${t}ms TTL=114\n`
-    tempos.push(t)
-    await esperar(1000)
-  }
-  let min=Math.min(...tempos)
-  let max=Math.max(...tempos)
-  let media=Math.round(tempos.reduce((a,b)=>a+b)/tempos.length)
-  saida.innerText+=`\nEstatísticas do Ping para ${ip}:\n`
-  saida.innerText+=`  Pacotes: Enviados = 4, Recebidos = 4, Perdidos = 0 (0% de perda)\n`
-  saida.innerText+=`  Mínimo = ${min}ms, Máximo = ${max}ms, Média = ${media}ms`
-}
-</script>
+        async function pingar() {
+            let host = document.getElementById("host").value || "localhost"
+            let ip = "172.217.28.68"
+            let saida = document.getElementById("saida")
+            saida.innerText = `Disparando ${host} [${ip}] com 32 bytes de dados:\n`
+            let tempos = []
+            for (let i = 1; i <= 4; i++) {
+                let t = Math.floor(Math.random() * 100) + 10
+                saida.innerText += `Resposta de ${ip}: bytes=32 tempo=${t}ms TTL=114\n`
+                tempos.push(t)
+                await esperar(1000)
+            }
+            let min = Math.min(...tempos)
+            let max = Math.max(...tempos)
+            let media = Math.round(tempos.reduce((a, b) => a + b) / tempos.length)
+            saida.innerText += `\nEstatísticas do Ping para ${ip}:\n`
+            saida.innerText += `  Pacotes: Enviados = 4, Recebidos = 4, Perdidos = 0 (0% de perda)\n`
+            saida.innerText += `  Mínimo = ${min}ms, Máximo = ${max}ms, Média = ${media}ms`
+        }
+    </script>
 </body>
+
 </html>
